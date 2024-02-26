@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<!-- ThereIsNoSpoon -->
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="favicon.png" type="image/png">
+  <title>Orbital Camera Rig</title>
+  <link href="css/style.css" rel="stylesheet" type="text/css">
+</head>
+
+
+<body>
+  <div id="page-content">
+  <!-- MANUAL TAB -->
+  <div class="container tab" id="manual-tab">
+    <h1>Manual Control</h1>
+    <div class="slider-container">
+      <div id="manual-slider-target" class="slider-target"></div>
+    </div>
+    <div class="button-container" id="manual-button-container">
+      <div class="manual-control-btn manual-rotate-btn">
+        <a href="javascript:;" class="icon-btn" data-control="counter-clockwise" data-action="play">
+          <i class="icon rotate-ccw-play"></i>
+        </a>
+        <a href="javascript:;" class="icon-btn display-none-js" data-control="counter-clockwise" data-action="pause">
+          <i class="icon rotate-ccw-pause"></i>
+        </a>
+      </div>
+      <div class="manual-control-btn manual-stop-btn">
+        <a href="javascript:;" class="icon-btn" data-control="stop" data-action="stop">
+          <i class="icon stop"></i>
+        </a>
+      </div>
+      <div class="manual-control-btn manual-rotate-btn">
+        <a href="javascript:;" class="icon-btn" data-control="clockwise" data-action="play">
+          <i class="icon rotate-cw-play"></i>
+        </a>
+        <a href="javascript:;" class="icon-btn display-none-js" data-control="clockwise" data-action="pause">
+          <i class="icon rotate-cw-pause"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+  <!-- END MANUAL TAB -->
+
+  <!-- AUTO TAB -->
+  <div class="container tab" id="auto-tab">
+    <h1>Auto Control</h1>
+    <div class="slider-container">
+      <div id="auto-slider-target" class="slider-target"></div>
+    </div>
+    <div id="auto-status-container">
+      <div id="auto-direction-status">
+        <p>
+          <span data-target="set-direction"></span>
+        </p>
+      </div>
+      <div id="auto-duration-status">
+        <p>
+          <span data-target="realtime-value"></span>
+          /
+          <span data-target="set-duration"></span>
+          <span data-target="set-uom"></span>
+        </p>
+      </div>
+    </div>
+    <div id="auto-input-container">
+      <div class="button-container">
+        <div class="toggle-wrapper">
+          <div class="title title-left">clockwise</div>
+          <div class="toggle normal" data-control="toggle-direction">
+            <input id="auto-direction-toggle" class="red-toggle checkbox" type="checkbox" autocomplete="off"
+              unchecked />
+            <label class="toggle-item" for="normal"></label>
+          </div>
+          <div class="title title-right">counter<br>clockwise</div>
+        </div>
+      </div>
+      <div class="duration-container">
+        <input type="text" name="duration" pattern="\d*" maxlength="4" id="auto-duration-value" class="numbers-only" inputmode="numeric" placeholder="300">
+        <select id="auto-duration-uom">
+          <option value="seconds">seconds</option>
+          <option value="minutes">minutes</option>
+          <option value="hours">hours</option>
+        </select>
+      </div>
+    </div>
+    <div id="auto-control-container">
+      <div class="button-container">
+        <div class="auto-control-btn auto-pause-btn display-none-js">
+          <a href="javascript:;" class="icon-btn" data-control="pause">
+            <i class="icon pause"></i>
+          </a>
+        </div>
+        <div class="auto-control-btn auto-play-btn">
+          <a href="javascript:;" class="icon-btn" data-control="play">
+            <i class="icon play"></i>
+          </a>
+        </div>
+        <div class="auto-control-btn auto-stop-btn">
+          <a href="javascript:;" class="icon-btn" data-control="stop">
+            <i class="icon stop"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- END AUTO TAB -->
+
+  <!-- SETTINGS TAB -->
+  <div class="container tab" id="settings-tab">
+    <form action="" id="settings-form">
+      <h1>Settings</h1>
+      <div class="form-group">
+        <label for="driver-gear">Gear Ratio:</label>
+        <input type="text" id="driver-gear" name="driver-gear" class="form-control numbers-only" size="2" maxLength="3" placeholder="1" inputmode="numeric" value="%DRIVER_GEAR%">
+        :
+        <input type="text" id="driven-gear" name="driven-gear" class="form-control numbers-only" size="2" maxLength="3" placeholder="1" inputmode="numeric" value="%DRIVEN_GEAR%">
+      </div>
+      <div class="form-group">
+        <label for="stepper-motor-steps">Stepper Motor Steps:</label>
+        <input type="text" id="stepper-motor-steps" name="stepper-steps" class="form-control numbers-only" size="3" maxLength="4" placeholder="200" inputmode="numeric" value="%STEPPER_STEPS%">
+      </div>
+      <div class="form-group">
+        <label for="driver-microstep-resolution">Driver Microstep Resolution:</label>
+        <select id="driver-microstep-resolution" name="microstep-res">
+          <option value="1" %MICROSTEP_FULL%>1</option>
+          <option value="2" %MICROSTEP_HALF%>1/2</option>
+          <option value="4" %MICROSTEP_QUARTER%>1/4</option>
+          <option value="8" %MICROSTEP_EIGHTH%>1/8</option>
+          <option value="16" %MICROSTEP_SIXTEENTH%>1/16</option>
+        </select>
+      </div>
+      <div class="form-group tall">
+        <label for="manual-stepper-speed">Manual Control Rotation Speed:</label>
+        <div class="range-container">
+          <input type="range" min="1" max="30" value="%MANUAL_SPEED%" class="slider" id="manual-stepper-speed" name="manual-speed">
+          <p><span id="manual-speed-output"></span> RPH</p>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="stepper-driver-gpio">Stepper Driver GPIO:</label>
+        <input type="text" id="stepper-driver-gpio" name="stepper-gpio" class="form-control numbers-only" size="1" maxLength="2" placeholder="17" inputmode="numeric" value="%STEPPER_GPIO%">
+      </div>
+      <div class="form-group">
+        <label for="led-1-gpio">LED Status 1 GPIO:</label>
+        <input type="text" id="led-1-gpio" name="led-1-gpio" class="form-control numbers-only" size="1" maxLength="2" placeholder="18" inputmode="numeric" value="%LED_1_GPIO%">
+      </div>
+      <div class="form-group">
+        <label for="led-2-gpio">LED Status 2 GPIO:</label>
+        <input type="text" id="led-2-gpio" name="led-2-gpio" class="form-control numbers-only" size="1" maxLength="2" placeholder="19" inputmode="numeric" value="%LED_2_GPIO%">
+      </div>
+      <div class="form-group">
+        <label for="direction-gpio">Direction GPIO:</label>
+        <input type="text" id="direction-gpio" name="direction-gpio" class="form-control numbers-only" size="1" maxLength="2" placeholder="16" inputmode="numeric" value="%DIRECTION_GPIO%">
+      </div>
+      <div class="form-group">
+        <label for="microstep-1-gpio">Microstep 1 GPIO:</label>
+        <input type="text" id="ms-1-gpio" name="ms-1-gpio" class="form-control numbers-only" size="1" maxLength="2" placeholder="21" inputmode="numeric" value="%MS_1_GPIO%">
+      </div>
+      <div class="form-group">
+        <label for="microstep-2-gpio">Microstep 2 GPIO:</label>
+        <input type="text" id="ms-2-gpio" name="ms-2-gpio" class="form-control numbers-only" size="1" maxLength="2" placeholder="22" inputmode="numeric" value="%MS_2_GPIO%">
+      </div>
+      <div class="form-group">
+        <label for="microstep-3-gpio">Microstep 3 GPIO:</label>
+        <input type="text" id="ms-3-gpio" name="ms-3-gpio" class="form-control numbers-only" size="1" maxLength="2" placeholder="23" inputmode="numeric" value="%MS_3_GPIO%">
+      </div>
+      <div class="form-group">
+        <button type="submit">Save</button>
+      </div>
+    </form>
+  </div>
+  <!-- END SETTINGS TAB -->
+
+  <!-- INFORMATION TAB -->
+  <div class="container tab" id="info-tab">
+    <h1 class="mrg-0B">Orbital Camera Rig Controller</h1>
+    <!-- <h1>Information</h1> -->
+    <p  class="mrg-0T">v 1.0.0</p>
+    <!-- <h2>Orbital Camera Rig Controller</h2> -->
+    <p>This Web App is designed to be uploaded to an ESP32 and control a A4988 Stepper Driver with 2 Status LEDs, and a 12v fan</p>
+    <p>GitHub: <a href="https://github.com/LucasBuildsStuff/orbital-camera-rig">Orbital Camera Rig</a></p>
+    <p>To support future development: <a href="https://lucasbuildsstuff.com">Lucas Builds Stuff</a></p>
+    <p>Circlular Range Slider: <a href="https://github.com/tadejf84/js-range-slider">tadejf84/js-range-slider</a></p>
+    <p>ESP32 Available GPIO: <a href="https://randomnerdtutorials.com/esp32-pinout-reference-gpios/">Random Nerd Tutorials</a></p>
+    <p>ESP32 Code Tutorials: <a href="https://randomnerdtutorials.com/projects-esp32/">Random Nerd Tutorials</a></p>
+  </div>
+  <!-- END INFORMATION TAB -->
+</div>
+  <!-- ERROR BAR -->
+    <div id="error-bar" class="display-none">
+      <p></p>
+      <span class="close-button">x</span>
+    </div>
+  <!-- FOOTER MENU -->
+  <div class="footer">
+    <div class="footer-container">
+      <div class="icon-wrapper">
+        <a href="javascript:;" class="icon-btn selected" data-tab="manual-tab">
+          <i class="icon manual"></i>
+          <p>Manual</p>
+        </a>
+      </div>
+      <div class="icon-wrapper">
+        <a href="javascript:;" class="icon-btn" data-tab="auto-tab">
+          <i class="icon timer"></i>
+          <p>Auto</p>
+        </a>
+      </div>
+      <div class="icon-wrapper">
+        <a href="javascript:;" class="icon-btn" data-tab="settings-tab">
+          <i class="icon settings"></i>
+          <p>Settings</p>
+        </a>
+      </div>
+      <div class="icon-wrapper">
+        <a href="javascript:;" class="icon-btn" data-tab="info-tab">
+          <i class="icon info"></i>
+          <p>Info</p>
+        </a>
+      </div>
+    </div>
+  </div>
+  <!-- END FOOTER MENU -->
+
+  <!-- LOADER OVERLAY -->
+  <div id="loader-overlay" class="">
+    <div class="loader"></div>
+  </div>
+  <!-- END LOADER OVERLAY -->
+
+  <script src="script/socket.js"></script>
+  <script src="script/circular-slider.js"></script>
+  <script src="script/app.js"></script>
+
+</body>
+
+</html>
