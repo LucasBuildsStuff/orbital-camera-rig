@@ -1,5 +1,6 @@
 # orbital-camera-rig
-Web App to control a Stepper Motor with ESP32, built with C++, JS, HTML, CSS
+Web App to control a Stepper Motor with ESP32, built with C++, JS, HTML, CSS.  
+Built for LucasBuildsStuff project on YouTube: [3D Printed Orbital Camera Rig](https://youtu.be/sik1LdNkgDY)
 
 ## Warning: Bugs
 This software is still in a very prototype stage. There are lots of things I learnt while building it and my skills are far from **"ThePrimeagen"**.  
